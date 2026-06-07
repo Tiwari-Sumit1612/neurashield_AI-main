@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions - NeuraShield</title>
+    <link rel="stylesheet" href="solutions.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="home.html" class="nav-logo">🛡️ NeuraShield</a>
+            </div>
+            <div class="nav-center">
+                <a href="home.html#home" class="nav-link">Home</a>
+                <a href="platform.html" class="nav-link">Platform</a>
+                <a href="solutions.html" class="nav-link active">Solutions</a>
+                <a href="home.html#enterprise" class="nav-link">Enterprise</a>
+                <a href="home.html#resources" class="nav-link">Resources</a>
+            </div>
+            <div class="nav-right">
+            <a href="#home">Sign In</a>  
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Code Analysis Tool</h1>
+            <p class="tagline">AI-Powered Security & Optimization Scanner</p>
+            <p class="description">Analyze your code for bugs, security vulnerabilities, and optimization opportunities in seconds.</p>
+        </div>
+    </section>
+
+    <!-- Main Analysis Tool -->
+    <section class="analysis-section">
+        <div class="container">
+            <!-- Input Options -->
+            <div class="input-panel">
+                <h2>Submit Your Code</h2>
+                <p class="subtitle">Choose one of the following methods to analyze your code</p>
+
+                <!-- Tab Selection -->
+                <div class="tab-selector">
+                    <button class="tab-btn active" data-tab="github">
+                        <span class="tab-icon">🔗</span>
+                        GitHub Repository
+                    </button>
+                    <button class="tab-btn" data-tab="paste">
+                        <span class="tab-icon">📝</span>
+                        Paste Code
+                    </button>
+                    <button class="tab-btn" data-tab="upload">
+                        <span class="tab-icon">📁</span>
+                        Upload File
+                    </button>
+                </div>
+
+                <!-- GitHub Tab -->
+                <div class="tab-content active" id="github-tab">
+                    <div class="input-group">
+                        <label for="github-url">GitHub Repository URL</label>
+                        <input type="text" id="github-url" placeholder="https://github.com/username/repository" class="input-field">
+                        <small class="help-text">Enter a public GitHub repository URL to analyze</small>
+                    </div>
+                    <button class="btn btn-analyze" onclick="analyzeGitHub()">
+                        <span class="btn-icon">🚀</span>
+                        Analyze Repository
+                    </button>
+                </div>
+
+                <!-- Paste Code Tab -->
+                <div class="tab-content" id="paste-tab">
+                    <div class="input-group">
+                        <label for="code-input">Source Code</label>
+                        <textarea id="code-input" placeholder="Paste your code here..." class="code-textarea" rows="15"></textarea>
+                        <small class="help-text">Paste your Python code for instant analysis</small>
+                    </div>
+                    <button class="btn btn-analyze" onclick="analyzeCode()">
+                        <span class="btn-icon">🚀</span>
+                        Analyze Code
+                    </button>
+                </div>
+
+                <!-- Upload File Tab -->
+                <div class="tab-content" id="upload-tab">
+                    <div class="input-group">
+                        <label for="file-upload">Upload File</label>
+                        <div class="file-upload-area" id="file-upload-area">
+                            <input type="file" id="file-upload" accept=".py,.js,.java,.cpp,.c,.txt" onchange="handleFileSelect(event)">
+                            <div class="file-upload-content">
+                                <span class="upload-icon">📤</span>
+                                <p>Click to upload or drag and drop</p>
+                                <small>Supported: .py, .js, .java, .cpp, .c, .txt</small>
+                            </div>
+                        </div>
+                        <div id="file-info" class="file-info"></div>
+                    </div>
+                    <button class="btn btn-analyze" onclick="analyzeFile()">
+                        <span class="btn-icon">🚀</span>
+                        Analyze File
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="progress-container" id="progress-container" style="display: none;">
+                <h3>Analysis in Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <p class="progress-text" id="progress-text">Initializing...</p>
+                <div class="progress-steps">
+                    <div class="step" id="step-1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Extracting Code</div>
+                    </div>
+                    <div class="step" id="step-2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Analyzing Security</div>
+                    </div>
+                    <div class="step" id="step-3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Finding Bugs</div>
+                    </div>
+                    <div class="step" id="step-4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Optimizing</div>
+                    </div>
+                    <div class="step" id="step-5">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Generating Report</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Display -->
+            <div class="results-container" id="results-container" style="display: none;">
+                <div class="results-header">
+                    <h2>Analysis Complete</h2>
+                    <div class="download-buttons">
+                        <button class="btn btn-download" onclick="downloadReport('pdf')">
+                            <span class="btn-icon">📄</span> PDF
+                        </button>
+                        <button class="btn btn-download" onclick="downloadReport('html')">
+                            <span class="btn-icon">🌐</span> HTML
+                        </button>
+                        <button class="btn btn-download" onclick="downloadReport('txt')">
+                            <span class="btn-icon">📝</span> TXT
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-icon security-icon">🛡️</div>
+                        <div class="summary-content">
+                            <h4>Security Score</h4>
+                            <p class="summary-value" id="security-score">-</p>
+                            <p class="summary-label" id="security-label">-</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon bugs-icon">🐛</div>
+                        <div class="summary-content">
+                            <h4>Bugs Found</h4>
+                            <p class="summary-value" id="bugs-count">-</p>
+                            <p class="summary-label" id="bugs-label">-</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon optimization-icon">⚡</div>
+                        <div class="summary-content">
+                            <h4>Optimizations</h4>
+                            <p class="summary-value" id="optimization-count">-</p>
+                            <p class="summary-label" id="optimization-label">-</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon code-icon">📊</div>
+                        <div class="summary-content">
+                            <h4>Code Quality</h4>
+                            <p class="summary-value" id="quality-score">-</p>
+                            <p class="summary-label" id="quality-label">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Report -->
+                <div class="report-section">
+                    <div class="section-tabs">
+                        <button class="section-tab active" data-section="security">Security Analysis</button>
+                        <button class="section-tab" data-section="bugs">Bug Detection</button>
+                        <button class="section-tab" data-section="optimization">Optimizations</button>
+                        <button class="section-tab" data-section="insights">Key Insights</button>
+                    </div>
+
+                    <!-- Security Section -->
+                    <div class="section-content active" id="security-section">
+                        <h3>Security Vulnerabilities</h3>
+                        <div id="security-details" class="details-container">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Bugs Section -->
+                    <div class="section-content" id="bugs-section">
+                        <h3>Detected Bugs</h3>
+                        <div id="bugs-details" class="details-container">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Optimization Section -->
+                    <div class="section-content" id="optimization-section">
+                        <h3>Optimization Opportunities</h3>
+                        <div id="optimization-details" class="details-container">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+       
+                    <!-- Insights Section -->
+                    <div class="section-content" id="insights-section">
+                        <h3>Key Recommendations</h3>
+                        <div id="insights-details" class="details-container">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="home.html" class="footer-link">Privacy</a>
+                <a href="home.html" class="footer-link">Terms</a>
+                <a href="home.html" class="footer-link">Contact</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2025 NeuraShield - Developer Automation Platform
+            </div>
+        </div>
+    </footer>
+    <script src="solutions.js"></script>
+</body>
+</html>

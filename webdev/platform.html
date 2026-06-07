@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform - NeuraShield AI Security</title>
+    <link rel="stylesheet" href="platform.css">
+</head>
+<body>
+     <nav>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="home.html" class="nav-logo">🛡️ NeuraShield</a>
+            </div>
+            <div class="nav-center">
+                <a href="home.html#home" class="nav-link">Home</a>
+                <a href="platform.html" class="nav-link active">Platform</a>
+                <a href="solutions.html" class="nav-link">Solutions</a>
+                <a href="home.html#enterprise" class="nav-link">Enterprise</a>
+                <a href="home.html#resources" class="nav-link">Resources</a>
+            </div>
+            <div class="nav-right">
+                <a href="#home">Sign In</a>  
+                 </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Get Started in 4 Simple Steps</h1>
+            <p>Set up NeuraShield AI security scanning for your repository in under 5 minutes</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="steps-section">
+           <!-- Step 1 -->
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <h2 class="step-title">Add OpenAI API Key to GitHub Secrets</h2>
+                </div>
+                <div class="step-content-wrapper">
+                    <div class="step-content">
+                        <p class="step-description">Navigate to your repository settings and add your OpenAI API key as a secret</p>
+                        <ul class="step-instructions">
+                            <li>Go to your GitHub repository</li>
+                            <li>Click <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong></li>
+                            <li>Click <strong>"New repository secret"</strong></li>
+                            <li>Name: <code style="color: #00D4FF; background: rgba(0, 212, 255, 0.1); padding: 0.25rem 0.5rem; border-radius: 4px;">OPENAI_API_KEY</code></li>
+                            <li>Value: [Your OpenAI API Key]</li>
+                            <li>Click <strong>"Add secret"</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-placeholder" style="margin-top: 20px;">
+                    <img src="platform SS/step1.png" alt="GitHub Secrets Page Screenshot" style="max-width:100%;max-height:100%;display:block;" />
+                </div>
+            </div>
+            
+
+            <!-- Step 2 -->
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h2 class="step-title">Copy Workflow Configuration</h2>
+                </div>
+                <div class="step-content-wrapper">
+                    <div class="step-content">
+                        <p class="step-description">Create the neurashield.yml workflow file in your repository</p>
+                    </div>
+                </div>
+                
+                <!-- Full Width Code Container -->
+                <div class="code-container" style="width:100%;margin:16px 0 0 0;padding:0;">
+                    <div class="code-header" style="display:flex;justify-content:space-between;align-items:center;">
+                        <span class="file-path">.github/workflows/neurashield.yml</span>
+                        <button class="copy-btn" onclick="copyWorkflowCode()">
+                            <span id="copy-icon">📋</span>
+                            <span id="copy-text">Copy Code</span>
+                        </button>
+                    </div>
+                    <div class="code-block" style="width:100%;padding:0;margin:0;">
+            <pre id="workflow-code" style="width:100%;margin:0;padding:20px;box-sizing:border-box;white-space:pre;overflow-x:auto;"><span class="code-keyword">name</span>: NeuraShield Security Scan
+
+            <span class="code-keyword">on</span>:
+            <span class="code-keyword">pull_request</span>:
+                <span class="code-keyword">types</span>: [opened, synchronize, reopened]
+                <span class="code-keyword">paths</span>:
+                - <span class="code-string">'**.py'</span>
+            <span class="code-keyword">workflow_dispatch</span>:
+
+            <span class="code-keyword">permissions</span>:
+            <span class="code-keyword">contents</span>: read
+            <span class="code-keyword">pull-requests</span>: write
+            <span class="code-keyword">issues</span>: write
+
+            <span class="code-keyword">jobs</span>:
+            <span class="code-keyword">security-scan</span>:
+                <span class="code-keyword">uses</span>: AaryaSoni-web/neurashield-ai/.github/workflows/reusable-analysis.yml@main
+                <span class="code-keyword">with</span>:
+                <span class="code-keyword">source-repo</span>: <span class="code-variable">${{ github.repository }}</span>
+                <span class="code-keyword">pr-number</span>: <span class="code-variable">${{ github.event.pull_request.number }}</span>
+                <span class="code-keyword">secrets</span>:
+                <span class="code-keyword">OPENAI_API_KEY</span>: <span class="code-variable">${{ secrets.OPENAI_API_KEY }}</span></pre>
+                    </div>
+                </div>
+                
+                <div class="image-placeholder" style="margin-top:20px;">
+                    <img src="platform SS/step2.png" alt="GitHub Secrets Page Screenshot" style="max-width:100%;max-height:100%;display:block;">
+                </div>
+            </div>
+
+            <script>
+            function copyWorkflowCode() {
+                const codeElement = document.getElementById('workflow-code');
+                const textToCopy = codeElement.innerText;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const copyIcon = document.getElementById('copy-icon');
+                    const copyText = document.getElementById('copy-text');
+                    
+                    copyIcon.textContent = '✓';
+                    copyText.textContent = 'Copied!';
+                    
+                    setTimeout(() => {
+                        copyIcon.textContent = '📋';
+                        copyText.textContent = 'Copy Code';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy:', err);
+                });
+            }
+            </script>
+
+
+           <!-- Step 3 -->
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h2 class="step-title">Create a Pull Request &amp; Get Report</h2>
+                </div>
+                
+                <div class="step-content-wrapper">
+                    <div class="step-content">
+                        <p class="step-description">Make any code change and create a PR to trigger the security analysis</p>
+                        
+                        <ul class="step-instructions" style="margin:20px 0;padding-left:24px;line-height:1.8;">
+                            <li>Create a new branch in your repository</li>
+                            <li>Make changes to Python files (*.py)</li>
+                            <li>Commit and push your changes</li>
+                            <li>Create a Pull Request</li>
+                            <li>Get automated security report as PR comment</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Example Report Preview (Full Width) -->
+                <div style="width:100%;margin:24px 0 0 0;padding:0;">
+                    <div class="example-report" style="background:linear-gradient(135deg,#1e3a5f 0%,#2d4a6f 100%);border-radius:12px;padding:28px 24px;box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+                        <h4 style="margin:0 0 20px 0;font-size:18px;font-weight:600;color:#4fc3f7;">🛡️ Example Security Report Preview</h4>
+                        
+                        <p style="margin:0 0 16px 0;font-size:16px;font-weight:600;color:#fff;border-bottom:2px solid rgba(255,255,255,0.1);padding-bottom:12px;">NeuraShield AI - Security Analysis Report</p>
+                        
+                        <div class="report-metrics" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:20px 0;">
+                            <div style="background:rgba(255,255,255,0.08);padding:16px;border-radius:8px;border-left:4px solid #4fc3f7;">
+                                <div style="font-size:13px;color:#b0bec5;margin-bottom:6px;">Files Analyzed</div>
+                                <div style="font-size:24px;font-weight:700;color:#fff;">15<span style="color:#b0bec5;font-size:18px;">/28</span></div>
+                            </div>
+                            <div style="background:rgba(255,255,255,0.08);padding:16px;border-radius:8px;border-left:4px solid #66bb6a;">
+                                <div style="font-size:13px;color:#b0bec5;margin-bottom:6px;">Security Score</div>
+                                <div style="font-size:24px;font-weight:700;color:#66bb6a;">85<span style="color:#b0bec5;font-size:18px;">/100</span></div>
+                            </div>
+                        </div>
+
+                        <p style="margin:24px 0 12px 0;font-weight:600;font-size:15px;color:#fff;">⚠️ Issues Found</p>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:12px 0 24px 0;">
+                            <div style="background:rgba(244,67,54,0.15);padding:12px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(244,67,54,0.3);">
+                                <span style="color:#ef5350;font-size:14px;">🔴 Critical</span>
+                                <span style="font-weight:700;color:#fff;font-size:18px;">0</span>
+                            </div>
+                            <div style="background:rgba(255,152,0,0.15);padding:12px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(255,152,0,0.3);">
+                                <span style="color:#ffa726;font-size:14px;">🟠 High</span>
+                                <span style="font-weight:700;color:#fff;font-size:18px;">2</span>
+                            </div>
+                            <div style="background:rgba(255,193,7,0.15);padding:12px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(255,193,7,0.3);">
+                                <span style="color:#ffca28;font-size:14px;">🟡 Medium</span>
+                                <span style="font-weight:700;color:#fff;font-size:18px;">5</span>
+                            </div>
+                        </div>
+
+                        <div style="background:rgba(255,152,0,0.15);border-left:4px solid #ffa726;padding:16px;border-radius:8px;margin-top:20px;">
+                            <strong style="color:#ffa726;font-size:15px;">🎯 Merge Recommendation:</strong>
+                            <span style="color:#fff;margin-left:8px;">⚠️ CAUTION - Review high severity issues before merging.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <h2 class="step-title">Receive Email Notification from GitHub</h2>
+            </div>
+            
+            <div class="step-content-wrapper">
+                <div class="step-content">
+                    <p class="step-description">GitHub automatically sends email notifications when the workflow completes</p>
+                    <ul class="step-instructions" style="margin:20px 0;padding-left:24px;line-height:1.8;">
+                        <li>Check your email inbox (associated with GitHub account)</li>
+                        <li>Look for notification from GitHub Actions</li>
+                        <li>Email contains link to workflow run</li>
+                        <li>Click to view full analysis report</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Image Below Content (Full Width) -->
+            <div style="width:100%;margin-top:24px;">
+                <img src="platform SS/step4.png" alt="GitHub Email Notification Screenshot" style="width:100%;height:auto;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:block;">
+            </div>
+        </div>
+
+
+        <!-- Benefits Section -->
+        <div class="benefits-section">
+            <h2 class="section-title">What You'll Get</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🛡️</div>
+                    <h3 class="benefit-title">Automated Security Analysis</h3>
+                    <p class="benefit-description">Every PR gets analyzed automatically for bugs and vulnerabilities</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3 class="benefit-title">Detailed Bug Reports</h3>
+                    <p class="benefit-description">Get comprehensive reports with CWE IDs and CVSS scores</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">✅</div>
+                    <h3 class="benefit-title">Merge Recommendations</h3>
+                    <p class="benefit-description">Clear guidance on whether code is safe to merge</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <ul class="footer-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="platform.html">Platform</a></li>
+                <li><a href="solutions.html">Solutions</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <p class="copyright">© 2025 NeuraShield. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="platform.js"></script>
+</body>
+</html>
